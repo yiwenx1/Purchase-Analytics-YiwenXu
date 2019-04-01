@@ -6,6 +6,8 @@ Running is tested on Python 2.7
 In based directory, simply `./run.sh`.  
 (If seeing permission errors, please try `chmod 777 run.sh` first)  
 
+Unit tests are also provided. It can be run under `src` with `python purchase_analytics_test.py` or with Python `unittest` commandline interface.  
+
 # Solution Walkthrough
 This solution uses the idea of Map Reduce. It's a framework suitable for scalable big data engineering projects.  
 
