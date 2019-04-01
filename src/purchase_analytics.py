@@ -1,38 +1,45 @@
 from functools import reduce
 import sys
 
+output_header = "department_id,number_of_orders,number_of_first_orders,percentage"
+
+
+def map_func1(record):
+    """
+    Map func for phase1. Map a line of raw record into [dept_id, 1, first_ordered] format.
+    :param record: string
+    :return: [dept_id (int), 1 (int value 1), first_ordered (int value 0 or 1)]
+    """
+    if type(record) != str:
+        raise TypeError("Map function 1 expects a string input.")
+    record = record.strip().split(",")
+    if len(record) != 4:
+        raise IndexError("Expecting 4 columns per row in order_products.csv.")
+    prod_id, first_ordered = int(record[1]), 1 - int(record[-1])
+    return prod_dept_lookup[prod_id], 1, first_ordered
+
+
+def reduce_func(record1, record2):
+    """
+    Reduce func for phase1. Reduce k-v pairs associated with a key into sums of ordered_sum and first_ordered_sum
+    :param record1: [1, first_ordered (0/1)]
+    :param record2: [1, first_ordered (0/1)]
+    :return: [ordered_sum, first_ordered_sum]
+    """
+    return record1[0] + record2[0], record1[1] + record2[1]
+
+
+def map_func2(record):
+    """
+    Map func for phase2. Calculates first_ordered_sum / ordered_sum percentage and rounds into 2 decimals.
+    :param record: [ordered_sum, first_ordered_sum]
+    :return: [dept_id, ordered_sum, first_ordered_sum, percentage], all in string
+    """
+    key, val = record[0], record[1]
+    return str(key), str(val[0]), str(val[1]), "%.2f" % (float(val[1]) / val[0])
+
+
 if __name__ == "__main__":
-
-    output_header = "department_id,number_of_orders,number_of_first_orders,percentage"
-
-    def map_func1(record):
-        """
-        Map func for phase1. Map a line of raw record into [dept_id, 1, first_ordered] format.
-        :param record: string
-        :return: [dept_id (int), 1 (int value 1), first_ordered (int value 0 or 1)]
-        """
-        record = record.strip().split(",")
-        prod_id, first_ordered = int(record[1]), 1 - int(record[-1])
-        return prod_dept_lookup[prod_id], 1, first_ordered
-
-    def reduce_func(record1, record2):
-        """
-        Reduce func for phase1. Reduce k-v pairs associated with a key into sums of ordered_sum and first_ordered_sum
-        :param record1: [1, first_ordered (0/1)]
-        :param record2: [1, first_ordered (0/1)]
-        :return: [ordered_sum, first_ordered_sum]
-        """
-        return record1[0] + record2[0], record1[1] + record2[1]
-
-    def map_func2(record):
-        """
-        Map func for phase2. Calculates first_ordered_sum / ordered_sum percentage and rounds into 2 decimals.
-        :param record: [ordered_sum, first_ordered_sum]
-        :return: [dept_id, ordered_sum, first_ordered_sum, percentage], all in string
-        """
-        key, val = record[0], record[1]
-        return str(key), str(val[0]), str(val[1]), "%.2f" % (float(val[1]) / val[0])
-
 
     if len(sys.argv) != 4:
         print("Please offer 3 input directories for order_products.csv, products.csv, and report.csv.")
@@ -51,6 +58,9 @@ if __name__ == "__main__":
 
         for line in input_records:
             record = line.strip().split(",")
+            if len(record) < 4:
+                print("Expecting 4 columns per row in products.csv.")
+                exit(2)
             prod_id, dept_id = record[0], record[-1]  # only need prod_id and dept_id, no worry for comma in prod name
             prod_dept_lookup[int(prod_id)] = int(dept_id)
 
