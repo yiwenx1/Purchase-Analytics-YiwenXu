@@ -2,7 +2,7 @@
 The purpose of this project is to calculate, for each department, the number of times a product was requested, number of times a product was requested for the first time and a ratio of those two numbers.
 
 # Run Instructions  
-Running is tested on Python 2.7  
+Running is tested on Python 2.7 and Python 3.6  
 In based directory, simply `./run.sh`.  
 (If seeing permission errors, please try `chmod 777 run.sh` first)  
 
@@ -17,8 +17,10 @@ If in need of change any directories, please modify the `run.sh` file and change
 
 Unit tests are also provided. It can be run under `src` with `python purchase_analytics_test.py` or with Python `unittest` commandline interface.  
 
+End-to-end tests are provided under `./insight_testsuite/tests` folder.  
+
 # Solution Walkthrough
-This solution uses the idea of Map Reduce. It's a framework suitable for scalable big data engineering projects.  
+This solution uses the idea of Map Reduce. It's a framework suitable for scalable big data engineering projects. Here uses an example to explain how it's designed:  
 
 ## Sample Input
 File `order_products.csv`:
