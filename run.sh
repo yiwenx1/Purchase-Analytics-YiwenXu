@@ -2,4 +2,13 @@
 #
 # Use this shell script to compile (if necessary) your code and then execute it. Below is an example of what might be found in this file if your program was written in Python
 #
-#python ./src/purchase_analytics.py ./input/order_products.csv ./input/products.csv ./output/report.csv
+SOURCE="./src/purchase_analytics.py"  # source code
+ORDERS="./input/order_products.csv"  # order_products.csv file
+PRODUCTS="./input/products.csv"  # products.csv file
+REPORT="./output/report.csv"  # report.csv file
+
+if [ -f $REPORT ]; then
+    rm $REPORT
+fi
+
+python $SOURCE $ORDERS $PRODUCTS $REPORT
