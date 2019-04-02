@@ -6,6 +6,15 @@ Running is tested on Python 2.7
 In based directory, simply `./run.sh`.  
 (If seeing permission errors, please try `chmod 777 run.sh` first)  
 
+In the run script, default specifications are:  
+```
+SOURCE="./src/purchase_analytics.py"  # source code
+ORDERS="./input/order_products.csv"  # order_products.csv file
+PRODUCTS="./input/products.csv"  # products.csv file
+REPORT="./output/report.csv"  # report.csv file
+```  
+If in need of change any directories, please modify the `run.sh` file and change these parameters.  
+
 Unit tests are also provided. It can be run under `src` with `python purchase_analytics_test.py` or with Python `unittest` commandline interface.  
 
 # Solution Walkthrough
